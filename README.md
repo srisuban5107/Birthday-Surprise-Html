@@ -24,10 +24,11 @@ The default password is:
 
 You can change it in this line inside the JavaScript code:
 
-```js
-if (pin === '0000') 
+
+**if (pin === '0000')**
 
 ## Password
+
 You can set the password based on DD/MM format of your loved one’s birthday.
 
 Examples:
