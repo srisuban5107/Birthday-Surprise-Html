@@ -30,15 +30,23 @@
         animation: fadeIn 2s ease;
     }
 
+    .input-container {
+        position: relative;
+        max-width: 300px;
+        margin: 15px auto;
+    }
+
     input {
+        width: 100%;
         padding: 10px;
         font-size: 18px;
         border-radius: 5px;
         border: none;
-        margin-right: 10px;
     }
 
-    button {
+    #enterBtn {
+        display: block;
+        margin: 25px auto 0;
         padding: 10px 20px;
         font-size: 18px;
         border: none;
@@ -49,7 +57,7 @@
         transition: 0.3s;
     }
 
-    button:hover {
+    #enterBtn:hover {
         background-color: #ff4757;
     }
 
@@ -65,60 +73,142 @@
         margin-top: 10px;
     }
 
+    #hintText {
+        color: yellow;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    /* Checkbox styling */
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 25px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .checkbox-container input {
+        display: none;
+    }
+
+    .checkmark {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #fff;
+        border-radius: 4px;
+        position: relative;
+        transition: background 0.3s, border-color 0.3s;
+    }
+
+    .checkbox-container input:checked ~ .checkmark {
+        background-color: #34d399;
+        border-color: #34d399;
+    }
+
+    .checkmark::after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg) scale(0);
+        transition: transform 0.2s ease;
+    }
+
+    .checkbox-container input:checked ~ .checkmark::after {
+        transform: rotate(45deg) scale(1);
+    }
+
+    .label-text {
+        font-size: 18px;
+        color: #fff;
+        margin-left: 10px; 
+    }
+
     /* Balloon animation */
     .balloon {
         position: absolute;
         width: 60px;
         height: 80px;
         background-color: #ff6b81;
-        border-radius: 50% 50% 50% 50%;
+        border-radius: 50%;
         bottom: -100px;
         animation: float 6s infinite;
         opacity: 0.8;
     }
 
     @keyframes float {
-        0% { transform: translateY(0) rotate(0deg);}
-        50% { transform: translateY(-600px) rotate(180deg);}
-        100% { transform: translateY(0) rotate(360deg);}
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-600px) rotate(180deg); }
+        100% { transform: translateY(0) rotate(360deg); }
     }
 
     @keyframes fadeIn {
-        0% {opacity: 0;}
-        100% {opacity: 1;}
+        0% { opacity: 0; }
+        100% { opacity: 1; }
     }
 </style>
 </head>
 <body>
 
-<!-- Entry Page -->
 <div id="entry" class="active">
-    <h1>Enter PIN to See  Surprise 🎉</h1>
-    <input type="password" id="pinInput" placeholder="Enter PIN">
-    <button onclick="checkPin()">Enter</button>
+    <h1>Enter PIN to See Surprise 🎉</h1>
+
+    <div class="input-container">
+        <input type="password" id="pinInput" placeholder="Enter PIN">
+    </div>
+
+    <!-- Updated Checkbox -->
+    <label class="checkbox-container">
+        <input type="checkbox" id="showPassword" onclick="togglePassword()">
+        <span class="checkmark"></span>
+        <span class="label-text">Show Password</span>
+    </label>
+
+    <button id="enterBtn" onclick="checkPin()">Enter</button>
+    <p id="hintText"></p>
 </div>
 
-<!-- Birthday Page -->
 <div id="birthdayPage">
-    <h1> Advance Happy Birthday! 🎂</h1>
-    <p>26 / 09 / 2025</p>
-    <p>Wishing you a day full of love, laughter, and joy!</p>
+    <h1> Happy Birthday! 🎂</h1> 
+    <p> Name - 26 / 09 / 2025 </p>  <!-- Your loved one's Name and Date -->
+    <p>Wishing you a day full of love, laughter, and joy!</p>  <!-- Your Message -->
 </div>
 
 <script>
+    let wrongAttempts = 0;
+
     function checkPin() {
         const pin = document.getElementById('pinInput').value;
-        if(pin === '2609') {
+        const hint = document.getElementById('hintText');
+
+        if (pin === '2609') { /* Your PIN */
             document.getElementById('entry').classList.remove('active');
             document.getElementById('birthdayPage').classList.add('active');
             createBalloons();
         } else {
-            alert('Incorrect PIN! Try again.');
+            wrongAttempts++;
+            if (wrongAttempts >= 3) {
+                hint.innerText = "Hint: Use DD/MM format of birthday 😄"; /* Your Hint */
+            } else {
+                hint.innerText = "Incorrect PIN! Try again.";
+            }
         }
     }
 
+    function togglePassword() {
+        const input = document.getElementById('pinInput');
+        const checkbox = document.getElementById('showPassword');
+        input.type = checkbox.checked ? 'text' : 'password';
+    }
+
     function createBalloons() {
-        for(let i = 0; i < 20; i++){
+        for (let i = 0; i < 20; i++) {
             const balloon = document.createElement('div');
             balloon.classList.add('balloon');
             balloon.style.backgroundColor = getRandomColor();
@@ -129,7 +219,7 @@
     }
 
     function getRandomColor() {
-        const colors = ['#ff6b81','#1e90ff','#fcd34d','#34d399','#a78bfa'];
+        const colors = ['#ff6b81', '#1e90ff', '#fcd34d', '#34d399', '#a78bfa'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
 </script>
