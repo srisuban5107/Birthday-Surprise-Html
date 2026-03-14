@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(120deg,#ff9a9e,#fad0c4);
+text-align:center;
+color:white;
+}
+
+#entry,#birthdayPage{
+display:none;
+padding:30px;
+}
+
+#entry.active{
+display:block;
+}
+
+#birthdayPage.active{
+display:block;
+animation:fadeIn 2s;
+}
+
+input{
+padding:12px;
+font-size:18px;
+border:none;
+border-radius:8px;
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#ff4d6d;
+color:white;
+}
+
+button:hover{
+background:#ff1e4d;
+}
+
+h1{
+font-size:45px;
+}
+
+.photo{
+width:220px;
+border-radius:20px;
+margin-top:20px;
+box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
+
+.gameBtn{
+display:block;
+margin:10px auto;
+}
+
+.balloon{
+position:absolute;
+width:60px;
+height:80px;
+border-radius:50%;
+bottom:-100px;
+animation:float 6s infinite;
+opacity:.8;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-600px)}
+100%{transform:translateY(0)}
+}
+
+@keyframes fadeIn{
+0%{opacity:0}
+100%{opacity:1}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PIN PAGE -->
+
+<div id="entry" class="active">
+
+<h1>Enter PIN 🎁</h1>
+
+<input type="password" id="pinInput" placeholder="Enter PIN">
+
+<br>
+
+<button onclick="checkPin()">Unlock</button>
+
+<p id="hintText"></p>
+
+</div>
+
+
+<!-- BIRTHDAY PAGE -->
+
+<div id="birthdayPage">
+
+<h1>🎂 Happy Birthday 🎂</h1>
+
+<img src="birthday.jpg" class="photo">
+
+<p>Wishing you happiness and love always ❤️</p>
+
+<h2>🎮 Mini Games</h2>
+
+<button class="gameBtn" onclick="guessGame()">Number Guess</button>
+
+<button class="gameBtn" onclick="reactionGame()">Reaction Test</button>
+
+<button class="gameBtn" onclick="loveMeter()">Love Meter</button>
+
+<p id="gameResult"></p>
+
+</div>
+
+
+<audio id="music" src="birthday.mp3"></audio>
+
+<script>
+
+let wrongAttempts=0;
+
+function checkPin(){
+
+let pin=document.getElementById("pinInput").value;
+
+if(pin==="1603"){
+
+document.getElementById("entry").classList.remove("active");
+document.getElementById("birthdayPage").classList.add("active");
+
+createBalloons();
+
+document.getElementById("music").play();
+
+}else{
+
+wrongAttempts++;
+
+if(wrongAttempts>=3){
+
+document.getElementById("hintText").innerText="Hint: Birthday date (DDMM) 😉";
+
+}else{
+
+document.getElementById("hintText").innerText="Wrong PIN";
+
+}
+
+}
+
+}
+
+
+function createBalloons(){
+
+for(let i=0;i<20;i++){
+
+let balloon=document.createElement("div");
+
+balloon.classList.add("balloon");
+
+balloon.style.left=Math.random()*window.innerWidth+"px";
+
+balloon.style.backgroundColor=randomColor();
+
+balloon.style.animationDelay=Math.random()*5+"s";
+
+document.body.appendChild(balloon);
+
+}
+
+}
+
+function randomColor(){
+
+let colors=["#ff6b81","#1e90ff","#34d399","#fcd34d","#a78bfa"];
+
+return colors[Math.floor(Math.random()*colors.length)];
+
+}
+
+
+function guessGame(){
+
+let num=Math.floor(Math.random()*10)+1;
+
+let guess=prompt("Guess number 1-10");
+
+if(guess==num){
+
+document.getElementById("gameResult").innerText="🎉 Correct!";
+
+}else{
+
+document.getElementById("gameResult").innerText="❌ Number was "+num;
+
+}
+
+}
+
+
+function reactionGame(){
+
+alert("Click OK fast!");
+
+let start=Date.now();
+
+alert("CLICK!");
+
+let end=Date.now();
+
+let time=(end-start)/1000;
+
+document.getElementById("gameResult").innerText="Reaction time: "+time+" sec";
+
+}
+
+
+function loveMeter(){
+
+let love=Math.floor(Math.random()*100);
+
+document.getElementById("gameResult").innerText="Love Meter ❤️ "+love+"%";
+
+}
+
+</script>
+
+</body>
+</html>
