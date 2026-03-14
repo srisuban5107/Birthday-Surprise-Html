@@ -98,7 +98,7 @@ transform:translateY(-120px);
 
 <div id="entry" class="active">
 
-<h1>Enter PIN </h1>
+<h1>Enter PIN</h1>
 
 <input type="password" id="pinInput">
 
@@ -115,7 +115,7 @@ transform:translateY(-120px);
 
 <div id="balloonGame">
 
-<h1> Pop All Balloons!</h1>
+<h1>Pop All Balloons!</h1>
 <p id="balloonCount"></p>
 
 </div>
@@ -125,15 +125,15 @@ transform:translateY(-120px);
 
 <div id="birthdayPage">
 
-<h1>Happy Birthday </h1>
+<h1>Happy Birthday</h1>
 
 <img src="birthday.jpg" class="photo">
 
-<p>Wishing you a day full of love and happiness </p>
+<p>Wishing you a day full of love and happiness</p>
 
 <br>
 
-<button onclick="openGames()">Play Mini Games </button>
+<button onclick="openGames()">Play Mini Games</button>
 
 </div>
 
@@ -142,7 +142,7 @@ transform:translateY(-120px);
 
 <div id="gamesMenu">
 
-<h1> Mini Games</h1>
+<h1>Mini Games</h1>
 
 <button onclick="guessGame()">Number Guess</button>
 <button onclick="reactionGame()">Reaction Test</button>
@@ -151,6 +151,9 @@ transform:translateY(-120px);
 <p id="gameResult"></p>
 
 </div>
+
+<!-- BIRTHDAY SONG -->
+<audio id="birthdaySong" src="birthday.mp3"></audio>
 
 
 <script>
@@ -193,9 +196,7 @@ function startBalloonGame(){
 document.getElementById("balloonCount").innerText="Balloons left: "+balloonsLeft;
 
 for(let i=0;i<balloonsLeft;i++){
-
 createBalloon();
-
 }
 
 }
@@ -222,9 +223,7 @@ balloonsLeft--;
 document.getElementById("balloonCount").innerText="Balloons left: "+balloonsLeft;
 
 if(balloonsLeft===0){
-
 showBirthday();
-
 }
 
 };
@@ -234,12 +233,14 @@ document.body.appendChild(balloon);
 }
 
 
-/* BIRTHDAY PAGE */
+/* SHOW BIRTHDAY PAGE + PLAY SONG */
 
 function showBirthday(){
 
 document.getElementById("balloonGame").classList.remove("active");
 document.getElementById("birthdayPage").classList.add("active");
+
+document.getElementById("birthdaySong").play();
 
 }
 
@@ -264,11 +265,11 @@ let guess=prompt("Guess number 1-10");
 
 if(guess==num){
 
-document.getElementById("gameResult").innerText=" Correct!";
+document.getElementById("gameResult").innerText="Correct!";
 
 }else{
 
-document.getElementById("gameResult").innerText=" Number was "+num;
+document.getElementById("gameResult").innerText="Number was "+num;
 
 }
 
